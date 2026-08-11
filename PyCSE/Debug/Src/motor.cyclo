@@ -1,0 +1,8 @@
+../Src/motor.c:16:13:Configurar_PWM_TIM2_PA5	1
+../Src/motor.c:58:13:Motor_FijarVelocidadPorcentaje	2
+../Src/motor.c:69:13:Configurar_PinesDireccion_L298N	1
+../Src/motor.c:82:13:Motor_GirarAdelante	1
+../Src/motor.c:88:13:Motor_GirarAtras	1
+../Src/motor.c:94:13:Motor_Detener	1
+../Src/motor.c:100:6:Motor_Inicializar	1
+../Src/motor.c:109:6:Motor_FijarEstado	3

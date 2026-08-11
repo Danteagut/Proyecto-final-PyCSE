@@ -1,0 +1,4 @@
+../Src/hc10.c:22:6:HC10_Inicializar	1
+../Src/hc10.c:31:6:HAL_UART_RxCpltCallback	6
+../Src/hc10.c:66:13:HC10_InterpretarLinea	5
+../Src/hc10.c:95:6:HC10_Procesar	2

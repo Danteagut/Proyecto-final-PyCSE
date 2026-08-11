@@ -1,0 +1,7 @@
+../Src/distance.c:25:13:Retardo_Microsegundos	2
+../Src/distance.c:36:13:Disparar_Sensor	1
+../Src/distance.c:57:16:Leer_Distancia_IC	3
+../Src/distance.c:83:6:HAL_TIM_IC_CaptureCallback	6
+../Src/distance.c:118:13:Enviar_Distancia_USART2	3
+../Src/distance.c:143:6:Distancia_Actualizar	2
+../Src/distance.c:158:7:Distancia_ObtenerCm	1

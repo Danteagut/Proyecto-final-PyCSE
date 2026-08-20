@@ -1,0 +1,8 @@
+../Src/distance.c:41:13:Retardo_Microsegundos	24	static
+../Src/distance.c:52:13:Disparar_Sensor	8	static
+../Src/distance.c:73:16:Leer_Distancia_IC	24	static
+../Src/distance.c:99:6:HAL_TIM_IC_CaptureCallback	24	static
+../Src/distance.c:140:17:Filtrar_PromedioMovil	16	static
+../Src/distance.c:168:6:Distancia_Actualizar	24	static
+../Src/distance.c:187:7:Distancia_ObtenerCm	4	static
+../Src/distance.c:193:9:Distancia_UltimaFueValida	4	static

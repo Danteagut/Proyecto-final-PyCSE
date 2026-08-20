@@ -9,6 +9,7 @@
 
 extern TIM_HandleTypeDef htim1;
 extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart4;
 
 void HAL_MspInit(void)
 {
@@ -31,6 +32,27 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    /* USART2 también recibe consignas (enlace por cable, vía ST-Link). */
+    HAL_NVIC_SetPriority(USART2_IRQn, 1, 0);
+    HAL_NVIC_EnableIRQ(USART2_IRQn);
+  }
+
+  /* UART4: PA0 -> TX, PA1 -> RX. Puerto dedicado al HC-10. */
+  else if (huart->Instance == UART4)
+  {
+    __HAL_RCC_UART4_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF8_UART4;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    HAL_NVIC_SetPriority(UART4_IRQn, 1, 0);
+    HAL_NVIC_EnableIRQ(UART4_IRQn);
   }
 }
 

@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := Motor_dron
+BUILD_ARTIFACT_NAME := Motor_dron_PyCSE
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Motor_dron.elf \
+Motor_dron_PyCSE.elf \
 
 MAP_FILES += \
-Motor_dron.map \
+Motor_dron_PyCSE.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-Motor_dron.list \
+Motor_dron_PyCSE.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: Motor_dron.elf secondary-outputs
+main-build: Motor_dron_PyCSE.elf secondary-outputs
 
 # Tool invocations
-Motor_dron.elf Motor_dron.map: $(OBJS) $(USER_OBJS) C:\Users\dante\OneDrive\Desktop\Posgrado\codigos\Motor\ dron\ tp\ sistemas\ embebidos\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Motor_dron.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\dante\OneDrive\Desktop\Posgrado\codigos\Motor dron tp sistemas embebidos\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Motor_dron.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Motor_dron_PyCSE.elf Motor_dron_PyCSE.map: $(OBJS) $(USER_OBJS) C:\Users\dante\OneDrive\Desktop\Posgrado\codigos\Motor\ dron\ tp\ sistemas\ embebidos\ -\ copia\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Motor_dron_PyCSE.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\dante\OneDrive\Desktop\Posgrado\codigos\Motor dron tp sistemas embebidos - copia\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Motor_dron_PyCSE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Motor_dron.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Motor_dron.list"
+Motor_dron_PyCSE.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Motor_dron_PyCSE.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) Motor_dron.elf Motor_dron.list Motor_dron.map default.size.stdout
+	-$(RM) Motor_dron_PyCSE.elf Motor_dron_PyCSE.list Motor_dron_PyCSE.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

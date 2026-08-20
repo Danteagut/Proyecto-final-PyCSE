@@ -1,0 +1,8 @@
+../Src/distance.c:41:13:Retardo_Microsegundos	2
+../Src/distance.c:52:13:Disparar_Sensor	1
+../Src/distance.c:73:16:Leer_Distancia_IC	3
+../Src/distance.c:99:6:HAL_TIM_IC_CaptureCallback	6
+../Src/distance.c:140:17:Filtrar_PromedioMovil	3
+../Src/distance.c:168:6:Distancia_Actualizar	2
+../Src/distance.c:187:7:Distancia_ObtenerCm	1
+../Src/distance.c:193:9:Distancia_UltimaFueValida	1

@@ -9,6 +9,8 @@
 #include "stm32f4xx_it.h"
 
 extern TIM_HandleTypeDef htim1;
+extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart4;
 
 void NMI_Handler(void)
 {
@@ -65,4 +67,16 @@ void SysTick_Handler(void)
 void TIM1_CC_IRQHandler(void)
 {
   HAL_TIM_IRQHandler(&htim1);
+}
+
+/* Los dos puertos reciben consignas y transmiten telemetría por
+ * interrupción, así que los dos necesitan su handler. */
+void USART2_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&huart2);
+}
+
+void UART4_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&huart4);
 }

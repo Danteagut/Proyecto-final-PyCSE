@@ -1,0 +1,9 @@
+../Src/height_control.c:89:6:ControlAltura_Inicializar	8	static
+../Src/height_control.c:104:6:ControlAltura_FijarObjetivoCm	16	static
+../Src/height_control.c:120:6:ControlAltura_Actualizar	32	static
+../Src/height_control.c:217:7:ControlAltura_ObtenerObjetivoCm	4	static
+../Src/height_control.c:223:7:ControlAltura_ObtenerErrorCm	4	static
+../Src/height_control.c:229:7:ControlAltura_ObtenerVelocidadVerticalCmS	4	static
+../Src/height_control.c:235:9:ControlAltura_ObtenerEmpujePct	4	static
+../Src/height_control.c:241:13:ControlAltura_ObtenerSentidoTexto	4	static
+../Src/height_control.c:264:7:ControlAltura_ObtenerIntegralPct	4	static

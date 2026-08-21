@@ -8,4 +8,4 @@ Un sensor ultrasónico HC-SR04 mide la altura real del conjunto. Un controlador 
 
  objetivo (cm) ──►(+)──► error ──► PID ──► saturación ──► motor (PWM) ──► planta (altura real)
                    ▲                                                            │
-                   └──────────────────── realimentación negativa (HC-SR04) ─────┘
+                   └──────────────────── retroalimentación negativa (HC-SR04) ─────┘

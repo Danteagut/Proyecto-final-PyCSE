@@ -7,60 +7,33 @@
  *
  *   salida = EMPUJE_BASE + Kp·error + Ki·∫error + Kd·(−velocidad)
  *
- * Con hélices el motor no comanda velocidad sino EMPUJE, que es aceleración.
- * La planta es un doble integrador, y cada término cumple un papel distinto:
- *
- *   P  — corrige en proporción al error actual.
- *
- *   D  — IMPRESCINDIBLE acá. Sin él el proporcional oscila para siempre: al
- *        llegar al objetivo el error es cero pero el conjunto todavía viene
- *        subiendo, se pasa, vuelve, y así indefinidamente. El derivativo mira
- *        la velocidad y descuenta empuje ANTES de llegar. Es el amortiguamiento.
- *
- *   I  — corrige el error de la base de empuje. EMPUJE_BASE es un valor medido
- *        a mano y nunca cae justo en el punto de flotación; además cambia al
- *        descargarse la batería. Con las ganancias necesarias para estabilizar
- *        un doble integrador, Kp es tan chico que un desajuste de 1 % en la
- *        base daría metros de error permanente. El integral lo absorbe.
- *
  * Orden de importancia: primero D (estabilidad), después I (precisión).
  * Un P+I sin D sobre esta planta es inestable; el D tiene que estar puesto.
  *
- * NOTA SOBRE LAS GANANCIAS: los valores de abajo salen de una simulación con
- * un modelo estimado de la planta (empuje proporcional al duty, flotación al
- * 60 %). Sirven como punto de partida seguro, NO como valores finales: hay
- * que ajustarlos en banco siguiendo el procedimiento del final del archivo.
- * ------------------------------------------------------------------------- */
+ *  * ------------------------------------------------------------------------- */
 
 /* El HC-SR04 no mide de forma confiable por debajo de ~2 cm. */
 #define ALTURA_MIN_CM          3.0f
 #define ALTURA_MAX_CM          20.0f
 
-/* Duty al que el conjunto queda al borde de despegar, MEDIDO en banco.
- * Es el punto de reposo del lazo: con error y velocidad nulos, la salida
- * vale exactamente esto. Hay que volver a medirlo si cambia el peso, las
- * hélices o la tensión de alimentación de los motores. */
+/* Duty al que el conjunto queda al borde de despegar, MEDIDO en el drone
+ * con pruebas, si cambia el peso o algo deberia volver a medirlo */
 #define EMPUJE_BASE_PCT        88.0f
 
 /* Ganancia proporcional: % de empuje por cada cm de error.
- * Parece chiquísima, y tiene que serlo: con la flotación al 60 %, un solo
- * 1 % de duty ya son ~16 cm/s² de aceleración. Ganancias del orden de las
- * unidades hacen que el conjunto se dispare. */
+ * hice algunas pruebas y por ahora esto es lo mejor, podria hacer una simualcion */
 #define KP_PCT_POR_CM           0.40f
 
-/* Ganancia integral: % de empuje por cada cm·s de error acumulado.
- * Corrige el desajuste de EMPUJE_BASE. Subirla acelera esa corrección pero
- * acerca el lazo a la inestabilidad: el criterio de Routh pide Kd·Kp > Ki. */
+/* Ganancia integral: % de empuje por cada cm·s de error acumulado. */
 #define KI_PCT_POR_CM_S         0.2f
 
-/* Ganancia derivativa: % de empuje por cada cm/s de velocidad vertical.
- * Es la que amortigua. Si el conjunto oscila, este es el valor a subir. */
+/* Ganancia derivativa: % de empuje por cada cm/s de velocidad vertical. */
 #define KD_PCT_POR_CM_S         0.9f
 
-/* Zona muerta sobre el término proporcional. En cero por defecto: con base
- * de empuje conviene corrección continua, y el promedio móvil ya deja el
- * ruido en torno a 0,1 cm. Subirla sólo si se ve temblar el empuje. */
-#define ZONA_MUERTA_CM          0.0f
+/* Zona muerta sobre el término proporcional. lo fui probando
+ * hasta que dejo de temblar el empuje, le doy 0,5cm porque es
+ * el posible error */
+#define ZONA_MUERTA_CM          0.5f
 
 /* Saturación de la salida, alrededor de la base.
  * El mínimo no es cero: conviene que las hélices sigan girando para no
@@ -141,9 +114,7 @@ void ControlAltura_Actualizar(float altura_actual_cm)
     /* --- Velocidad vertical -------------------------------------------
      * Se deriva la ALTURA MEDIDA, no el error. Si se derivara el error,
      * cada vez que Node-RED manda un setpoint nuevo el salto brusco
-     * produciría un pico enorme en la derivada (el "derivative kick") y
-     * el motor daría un tirón. Derivando la medición eso no ocurre,
-     * porque la altura real no salta.
+     * produciría un pico enorme en la derivada
      *
      * Además la altura ya viene filtrada por el promedio móvil: derivar
      * la señal cruda amplificaría el ruido del sensor. */
@@ -177,8 +148,7 @@ void ControlAltura_Actualizar(float altura_actual_cm)
 
     /* --- Término derivativo -------------------------------------------
      * Signo negativo: si el conjunto sube, descuenta empuje para frenar
-     * antes de alcanzar el objetivo. Actúa siempre, también dentro de la
-     * zona muerta, porque el amortiguamiento nunca sobra. */
+     * antes de alcanzar el objetivo. */
     termino_d = -KD_PCT_POR_CM_S * velocidad_cm_s;
 
     salida_sin_saturar = EMPUJE_BASE_PCT + termino_p + integral_pct + termino_d;
@@ -196,11 +166,7 @@ void ControlAltura_Actualizar(float altura_actual_cm)
     }
 
     /* --- Término integral, con ANTI-WINDUP -----------------------------
-     * Sólo se acumula si la salida NO está saturada. Si el motor ya está
-     * al máximo y el conjunto igual no sube, seguir integrando no ayuda:
-     * el acumulador crecería sin límite y al volver a la zona útil el
-     * sistema se pasaría de largo. Es la razón por la que el integral
-     * tiene mala fama, y se evita con esta única condición. */
+     * Sólo se acumula si la salida NO está saturada. sino se haria infinito*/
     if ((salida_pct == salida_sin_saturar) && (KI_PCT_POR_CM_S > 0.0f))
     {
         integral_pct += KI_PCT_POR_CM_S * error_cm * PERIODO_S;
@@ -265,28 +231,3 @@ float ControlAltura_ObtenerIntegralPct(void)
 {
     return integral_pct;
 }
-
-/* ---------------------------------------------------------------------------
- * PROCEDIMIENTO DE SINTONÍA EN BANCO
- *
- * Hacerlo con la estructura enhebrada en la guía y un tope físico arriba.
- *
- * 1. EMPUJE_BASE_PCT
- *    Poner KP, KI y KD en cero. Mandar cualquier HEIGHT. Ir subiendo
- *    EMPUJE_BASE hasta que el conjunto quede al borde de despegar, y
- *    después un poco más, hasta que flote sin subir ni bajar. Ese es el
- *    valor: la flotación real, no el punto anterior.
- *
- * 2. KD  (estabilidad — va primero)
- *    Dejar KI en cero. Subir KP hasta que el conjunto empiece a oscilar
- *    alrededor del objetivo. Ahí subir KD hasta que la oscilación se
- *    apague. Si no se apaga con ningún KD, bajar KP.
- *
- * 3. KI  (precisión — va último)
- *    Si al estabilizarse queda parado por debajo del objetivo, subir KI
- *    de a poco hasta que llegue. Demasiado KI hace que se pase de largo
- *    lentamente, con un vaivén de período largo.
- *
- * Mirar la telemetría VZ (velocidad vertical) mientras se ajusta KD: si
- * cambia de signo varias veces antes de asentarse, falta KD.
- * ------------------------------------------------------------------------- */

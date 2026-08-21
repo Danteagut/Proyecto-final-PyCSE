@@ -1,8 +1,8 @@
-../Src/comandos.c:39:18:Buscar_Enlace	24	static
-../Src/comandos.c:55:6:Comandos_Inicializar	16	static
-../Src/comandos.c:74:6:HAL_UART_RxCpltCallback	24	static
-../Src/comandos.c:119:16:Interpretar_Linea	32	static
-../Src/comandos.c:150:6:Comandos_Procesar	16	static
-../Src/comandos.c:177:6:Comandos_EnviarTelemetria	24	static
-../Src/comandos.c:203:16:Comandos_ObtenerUltimoOrigen	4	static
-../Src/comandos.c:209:13:Comandos_ObtenerUltimoOrigenTexto	4	static
+../Src/comandos.c:41:18:Buscar_Enlace	24	static
+../Src/comandos.c:57:6:Comandos_Inicializar	16	static
+../Src/comandos.c:76:6:HAL_UART_RxCpltCallback	24	static
+../Src/comandos.c:121:16:Interpretar_Linea	32	static
+../Src/comandos.c:152:6:Comandos_Procesar	16	static
+../Src/comandos.c:179:6:Comandos_EnviarTelemetria	24	static
+../Src/comandos.c:205:16:Comandos_ObtenerUltimoOrigen	4	static
+../Src/comandos.c:211:13:Comandos_ObtenerUltimoOrigenTexto	4	static

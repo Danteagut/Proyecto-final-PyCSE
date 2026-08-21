@@ -7,7 +7,9 @@
 /* Protocolo de entrada:  "HEIGHT:<valor_cm>\n"
  *
  * Se acepta por los dos enlaces indistintamente. El clamp 3-20 lo hace
- * height_control, no este módulo. */
+ * height_control, no este módulo, aca lo unico que hago es decirle al sistema
+ * de donde voy a sacar los datos, lo implemente cuando me empezo a fallar el bluetooth
+ *  */
 
 #define LINEA_MAX        32U
 #define CANT_ENLACES      2U

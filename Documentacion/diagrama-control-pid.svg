@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 584" width="980" height="584">
+<title>Control de altura por realimentacion negativa - diagrama de bloques PID</title>
+
+<defs>
+<marker id="flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M0 0 L10 5 L0 10 z" fill="#444444"/>
+</marker>
+</defs>
+
+<style>
+.caja  { fill:#f5f5f5; stroke:#888888; stroke-width:2 }
+.cajaf { fill:#e6e6e6; stroke:#888888; stroke-width:2 }
+.nom   { fill:#1a1a1a; font-family:"Segoe UI",Arial,sans-serif; font-size:13px; font-weight:600; text-anchor:middle }
+.sub   { fill:#3d3d3d; font-family:Georgia,"Times New Roman",serif; font-size:12px; font-style:italic; text-anchor:middle }
+.subs  { fill:#3d3d3d; font-family:"Segoe UI",Arial,sans-serif; font-size:11px; text-anchor:middle }
+.sig   { fill:#1a1a1a; font-family:Georgia,"Times New Roman",serif; font-size:13.5px; font-style:italic; text-anchor:middle }
+.lin   { stroke:#444444; stroke-width:2.5; fill:none; marker-end:url(#flecha) }
+.linp  { stroke:#444444; stroke-width:2.5; fill:none }
+.op    { fill:#1a1a1a; font-family:"Segoe UI",Arial,sans-serif; font-size:16px; font-weight:700; text-anchor:middle }
+.ecu   { fill:#1a1a1a; font-family:Georgia,"Times New Roman",serif; font-size:13.5px; text-anchor:start }
+.nota  { fill:#3d3d3d; font-family:"Segoe UI",Arial,sans-serif; font-size:12px; text-anchor:start }
+</style>
+
+<rect x="0" y="0" width="980" height="584" fill="#ffffff"/>
+
+<text x="48" y="148" class="sig">r(t)</text>
+<text x="48" y="166" class="subs">referencia</text>
+<path d="M20 170 L108 170" class="lin"/>
+
+<circle cx="150" cy="170" r="20" class="caja"/>
+<text x="150" y="176" class="op">&#931;</text>
+<text x="133" y="152" class="op">+</text>
+<text x="131" y="209" class="op">&#8722;</text>
+
+<path d="M170 170 L205 170" class="linp"/>
+<text x="190" y="158" class="sig">e(t)</text>
+<circle cx="205" cy="170" r="4" fill="#444444"/>
+
+<path d="M205 170 L205 95 L244 95" class="lin"/>
+<path d="M205 170 L244 170" class="lin"/>
+
+<rect x="250" y="70" width="120" height="50" class="caja" rx="6"/>
+<text x="310" y="90" class="nom">Proporcional</text>
+<text x="310" y="109" class="sub">K<tspan font-size="9" dy="3">p</tspan><tspan dy="-3"> &#183; e(t)</tspan></text>
+
+<rect x="250" y="145" width="120" height="50" class="caja" rx="6"/>
+<text x="310" y="165" class="nom">Integral</text>
+<text x="310" y="184" class="sub">K<tspan font-size="9" dy="3">i</tspan><tspan dy="-3"> &#183; &#8747; e(t) dt</tspan></text>
+
+<rect x="250" y="250" width="120" height="50" class="caja" rx="6"/>
+<text x="310" y="270" class="nom">Derivativo</text>
+<text x="310" y="289" class="sub">K<tspan font-size="9" dy="3">d</tspan><tspan dy="-3"> &#183; v(t)</tspan></text>
+
+<path d="M370 95 L410 95 L410 152" class="lin"/>
+<path d="M370 170 L404 170" class="lin"/>
+<path d="M370 275 L410 275 L410 190" class="lin"/>
+<text x="426" y="256" class="op">&#8722;</text>
+
+<text x="430" y="52" class="sig">u<tspan font-size="9" dy="3">0</tspan></text>
+<text x="430" y="68" class="subs">empuje base</text>
+<path d="M430 76 L430 144" class="lin"/>
+
+<circle cx="430" cy="170" r="20" class="caja"/>
+<text x="430" y="176" class="op">&#931;</text>
+
+<path d="M450 170 L484 170" class="lin"/>
+<text x="467" y="134" class="sig">u(t)</text>
+
+<rect x="490" y="145" width="118" height="50" class="caja" rx="6"/>
+<text x="549" y="165" class="nom">Saturaci&#243;n</text>
+<text x="549" y="184" class="subs">l&#237;mites de salida</text>
+
+<path d="M608 170 L639 170" class="lin"/>
+
+<rect x="645" y="145" width="118" height="50" class="caja" rx="6"/>
+<text x="704" y="165" class="nom">Motores + h&#233;lices</text>
+<text x="704" y="184" class="subs">PWM &#8594; empuje</text>
+
+<path d="M763 170 L794 170" class="lin"/>
+
+<rect x="800" y="145" width="118" height="50" class="caja" rx="6"/>
+<text x="859" y="165" class="nom">Planta</text>
+<text x="859" y="184" class="subs">empuje &#8594; altura</text>
+
+<path d="M918 170 L958 170" class="lin"/>
+<text x="941" y="126" class="sig">y(t)</text>
+<text x="941" y="143" class="subs">altura</text>
+
+<circle cx="938" cy="170" r="4.5" fill="#444444"/>
+<path d="M938 170 L938 440 L769 440" class="lin"/>
+
+<rect x="645" y="415" width="118" height="50" class="cajaf" rx="6"/>
+<text x="704" y="435" class="nom">Sensor</text>
+<text x="704" y="454" class="subs">muestreo cada T</text>
+
+<path d="M645 440 L614 440" class="lin"/>
+
+<rect x="490" y="415" width="118" height="50" class="cajaf" rx="6"/>
+<text x="549" y="435" class="nom">Filtro</text>
+<text x="549" y="454" class="subs">promedio m&#243;vil</text>
+
+<path d="M490 440 L150 440 L150 196" class="lin"/>
+
+<circle cx="230" cy="440" r="4.5" fill="#444444"/>
+<path d="M230 440 L230 275 L244 275" class="lin"/>
+<text x="292" y="330" class="sub">v(t) = &#916;y / T</text>
+
+<line x1="20" y1="492" x2="960" y2="492" stroke="#888888" stroke-width="1.5"/>
+
+<text x="20" y="516" class="ecu">e(t) = r(t) &#8722; y(t)</text>
+<text x="20" y="540" class="ecu">u(t) = sat [ u<tspan font-size="9" dy="3">0</tspan><tspan dy="-3"> + K</tspan><tspan font-size="9" dy="3">p</tspan><tspan dy="-3"> &#183; e(t) + K</tspan><tspan font-size="9" dy="3">i</tspan><tspan dy="-3"> &#183; &#8747; e(t) dt &#8722; K</tspan><tspan font-size="9" dy="3">d</tspan><tspan dy="-3"> &#183; v(t) ]</tspan></text>
+<text x="20" y="566" class="nota">La rama derivativa parte de la salida medida, no del error: as&#237; un cambio de referencia no produce un pico en la derivada.</text>
+</svg>
